@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data_summary</title>
+</head>
+<body>
+    <h1>Data Summary Page</h1>
+    <table>
+        <tr>
+            <th>Min Year</th>
+            <th>Max Year</th>
+        </tr>
+        <tr>
+            <td>{{ data['year_min'] }}</td>
+            <td>{{ data['year_max'] }}</td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <th>year</th>
+            <th>name</th>
+            <th>gender</th>
+            <th>count</th>
+        </tr>
+            {% for index, row in df.head().iterrows() %}
+            <tr>
+                <td>{{ row.get('year') }}</td>
+                <td>{{ row.get('name') }}</td>
+                <td>{{ row.get('gender') }}</td>
+                <td>{{ row.get('count') }}</td>
+            </tr>
+            {% endfor %}
+
+    </table>
+
+</body>
+</html>
