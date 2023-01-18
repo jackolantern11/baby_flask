@@ -17,6 +17,11 @@
         </tr>
     </table>
     <br>
+
+    <h2>Here is a Graph:</h2>
+    <img src="{{ url_for('generate_png', filename=file) }}" alt="Graph">
+
+    <br>
     <table>
         <tr>
             <th>year</th>
@@ -24,12 +29,12 @@
             <th>gender</th>
             <th>count</th>
         </tr>
-            {% for index, row in df.head().iterrows() %}
+            {% for tuple in df.head(50).itertuples() %}
             <tr>
-                <td>{{ row.get('year') }}</td>
-                <td>{{ row.get('name') }}</td>
-                <td>{{ row.get('gender') }}</td>
-                <td>{{ row.get('count') }}</td>
+                <td>{{ tuple.year }}</td>
+                <td>{{ tuple.name }}</td>
+                <td>{{ tuple.gender }}</td>
+                <td>{{ tuple.count }}</td>
             </tr>
             {% endfor %}
 
