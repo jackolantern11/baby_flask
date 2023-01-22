@@ -1,21 +1,24 @@
 from application import app
 from flask import render_template
-import pandas as pd
 import plotly.graph_objs as go
 import plotly.io as pio
+from application import graph_calculations
 
 @app.route('/')
 @app.route('/index')
-@app.route('/home')
 def index():
     return render_template("index.html")
 
 @app.route('/graph')
 def graph():
 
-    df = pd.read_csv("data.csv").head(100)
-    data = [go.Scatter(x=df['year'], y=df['name'])]
-    layout = go.Layout(title='My Graph')
+    # @ToDo - Create user input box for name:
+    name = 'Raya'
+
+    df = graph_calculations.create_base_df()
+    df = df[df['name'] == name]
+    data = [go.Scatter(x=df['year'], y=df['count'])]
+    layout = go.Layout(title=f"Births per year with name: {name}")
     fig = go.Figure(data=data, layout=layout)
     graphJSON = pio.to_json(fig)
 
@@ -25,6 +28,6 @@ def graph():
 def data_summary():
     # page to display a dataframe as a table
     # @ToDo - How to update this yearly or manually?
-    df = pd.read_csv("data.csv").head(25)
+    df = graph_calculations.create_base_df().head(100)
     return render_template("data_summary.html", data={'year_min': df['year'].min(),
                                                       'year_max': df['year'].max()}, df=df)

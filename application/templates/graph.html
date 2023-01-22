@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
- <body>
-  <h1>Graph 1</h1>
-  <div id='chart' class='chart'”></div>
+<body style="background-color:powderblue;">
+  <h1 style="color:midnightblue;">Graph</h1>
+  <div id='chart' class='chart'></div>
+  <div id='text'></div>
 </body>
+
 <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 <script type='text/javascript'>
   var graphs = {{graphJSON | safe}};
