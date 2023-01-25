@@ -1,14 +1,52 @@
-<!doctype html>
-<html>
-<body style="background-color:powderblue;">
-  <h1 style="color:midnightblue;">Graph</h1>
-  <div id='chart' class='chart'></div>
-  <div id='text'></div>
-</body>
+    {% extends "layout.html" %}
 
-<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-<script type='text/javascript'>
-  var graphs = {{graphJSON | safe}};
-  Plotly.plot('chart',graphs,{});
-</script>
-</html>
+    {% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h3></h3>
+            <form name="enter_name" action="" method="post">
+                <fieldset class="form-group">
+                    <legend>Research Name</legend>
+                {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.name.label }}
+                        <br>
+                        {{ form.name(size=35) }}
+                        {% for error in form.name.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.gender.label }}
+                        <br>
+                        <select name="gender" method="GET" action="/">
+                          <option value=""></option>
+                          {% for gender in genders %}
+                            <option value="{{ gender }}">{{ gender }}</option>
+                          {% endfor %}
+                        </select>
+                        {% for error in form.gender.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        {{ form.submit() }}
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <body style="background-color:powderblue;">
+
+    {% if graphJSON %}
+        <br>
+        <div id='chart' class='chart'></div>
+        <div id='text'></div>
+        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+        <script type='text/javascript'>
+          var graphs = {{graphJSON | safe}};
+          Plotly.plot('chart',graphs,{});
+        </script>
+    {% endif %}
+    {% endblock %}
