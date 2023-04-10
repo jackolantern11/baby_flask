@@ -17,19 +17,6 @@
                         {% endfor %}
                     </p>
                     <p>
-                        {{ form.gender.label }}
-                        <br>
-                        <select name="gender" method="GET" action="/">
-                          <option value=""></option>
-                          {% for gender in genders %}
-                            <option value="{{ gender }}">{{ gender }}</option>
-                          {% endfor %}
-                        </select>
-                        {% for error in form.gender.errors %}
-                            <span class="error-message">{{ error }}</span>
-                        {% endfor %}
-                    </p>
-                    <p>
                         {{ form.submit() }}
                     </p>
                 </fieldset>
