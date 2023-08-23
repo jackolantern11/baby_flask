@@ -3,7 +3,7 @@ FROM python:3.9-alpine
 ENV FLASK_APP main.py
 ENV FLASK_CONFIG production
 
-# numpy dependencies reqd
+# numpy & pandas dependencies reqd
 RUN apk add --no-cache --update \
     python3 python3-dev gcc g++ \
     gfortran musl-dev \
