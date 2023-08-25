@@ -17,3 +17,4 @@ tenacity==8.2.2
 tzdata==2023.3
 Werkzeug==2.3.6
 WTForms==3.0.1
+gunicorn==21.2.0

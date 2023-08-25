@@ -1,5 +1,9 @@
 Baby Names Project
 
+here's how to run locally with gunicorn:
+gunicorn 'main:app' --access-logfile=- --error-logfile - --env FLASK_CONFIG=production
+
+
 ToDo:
 
 Data Pipeline:
