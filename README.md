@@ -3,6 +3,11 @@ Baby Names Project
 here's how to run locally with gunicorn:
 gunicorn 'main:app' --access-logfile=- --error-logfile - --env FLASK_CONFIG=production
 
+build docker image 
+docker login 192.168.1.14:3000
+docker build -t 192.168.1.14:3000/zfreeze/baby_flask:latest .
+docker push 192.168.1.14:3000/zfreeze/baby_flask:latest
+
 
 ToDo:
 
