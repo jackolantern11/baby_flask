@@ -1,5 +1,7 @@
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or b'\xd4\x80v!\x0e\xbe\xd1\x8e\x05T\xe8c\x18\x0fo\\'
@@ -11,6 +13,8 @@ class Config:
 
 
 class ProductionConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
@@ -18,6 +22,8 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir,
+                                                                                                'data-dev.sqlite')
 
 
 class DockerConfig(ProductionConfig):

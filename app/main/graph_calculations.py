@@ -1,12 +1,17 @@
 import pandas as pd
+from app import db
+from app.models import Federal_Data
+from flask_sqlalchemy import SQLAlchemy
 
-def create_base_df():
 
-    # @ToDo - Move data input to MongoDB for faster reads
+def create_base_df(name: str) -> pd.DataFrame:
+
     # Read Data from input source
-    df = pd.read_csv("./data/data.csv")
+    name_specific_data_objects = Federal_Data.query.filter_by(name=name).all()
+    df = pd.DataFrame([obj.__dict__ for obj in name_specific_data_objects])
 
     # Calculate and Merge in Total Births for Each Year, then Total per Gender per Year
+    # Can this be done with simpler sql queries??
     df = df.merge(
         df.groupby(["year"], as_index=False)["count"].sum().rename(columns={"count": "year_total"}),
         how="left",
@@ -28,9 +33,8 @@ def create_base_df():
 
 def name_popular_year_dfs():
 
-    # @ToDo - Move data input to MongoDB for faster reads
-    # Read Data from input source
-    df = pd.read_csv("./data/data.csv")
+    df = pd.DataFrame()
+    # df = read_mongo(db='baby_data', collection='federal_baby_name')
 
     # Determine Most Popular Year for Each Name by Total Names Given
     popular_years = (
@@ -44,7 +48,8 @@ def name_popular_year_dfs():
         .rename(columns={"year": "year_pop"}, inplace=False)
     )
 
-    pop_total_name_df = df.merge(popular_years.rename(columns={"year_pop": "year"}), how='inner', on=['name', 'gender', 'year'])
+    pop_total_name_df = df.merge(popular_years.rename(columns={"year_pop": "year"}), how='inner',
+                                 on=['name', 'gender', 'year'])
 
     popular_proportion_years = (
         df.merge(
@@ -58,6 +63,6 @@ def name_popular_year_dfs():
     )
 
     pop_proportion_name_df = df.merge(popular_proportion_years.rename(columns={"year_pop": "year"}), how='inner',
-                 on=['name', 'gender', 'year'])
+                                      on=['name', 'gender', 'year'])
 
     return pop_total_name_df, pop_proportion_name_df

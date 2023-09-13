@@ -6,11 +6,13 @@ import plotly.io as pio
 from . import graph_calculations
 from .forms import NameForm
 
+
 @main.route('/')
 @main.route('/index')
 def index():
     session.pop('graphJSON', None)
     return render_template("index.html")
+
 
 @main.route('/graph', methods=['GET', 'POST'])
 def graph():
@@ -21,7 +23,7 @@ def graph():
     if name_form.validate_on_submit():
         name = name_form.name.data
         # gender = name_form.gender.data
-        df = graph_calculations.create_base_df()
+        df = graph_calculations.create_base_df(name=name)
 
         # @ToDo - Male & Female combined and Male & Female Separated
         # @ToDo - Names with similar popularity
