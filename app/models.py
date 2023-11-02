@@ -20,7 +20,6 @@ class Federal_Data(db.Model):
         if len(object_list) > 0:
             print("transform to datafame...")
 
-
         else:
             print("Creating empty dataframe...")
 

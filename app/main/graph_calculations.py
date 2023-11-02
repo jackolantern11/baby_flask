@@ -1,68 +1,65 @@
 import pandas as pd
-from app import db
-from app.models import Federal_Data
-from flask_sqlalchemy import SQLAlchemy
+import plotly.graph_objs as go
+import plotly.io as pio
 
 
-def create_base_df(name: str) -> pd.DataFrame:
+def generate_base_name_graph(df: pd.DataFrame, name: str) -> object:
+    """
+    Function to generate plotly graph for male/female split based on dataframe
+    :param df:
+    :param name:
+    :return:
+    """
 
-    # Read Data from input source
-    name_specific_data_objects = Federal_Data.query.filter_by(name=name).all()
-    df = pd.DataFrame([obj.__dict__ for obj in name_specific_data_objects])
+    if 'gender' in df.columns:
+        male_df = df[(df['gender'] == "M")]
+        female_df = df[(df['gender'] == "F")]
 
-    # Calculate and Merge in Total Births for Each Year, then Total per Gender per Year
-    # Can this be done with simpler sql queries??
-    df = df.merge(
-        df.groupby(["year"], as_index=False)["count"].sum().rename(columns={"count": "year_total"}),
-        how="left",
-        on=["year"],
-    )
+    else:
+        # fill with dummy data
+        male_df = pd.DataFrame({"year": [0], "count": [0]})
+        female_df = male_df
 
-    df = df.merge(
-        df.groupby(["year", "gender"], as_index=False)["count"].sum().rename(columns={"count": "year_gender_total"}),
-        how="left",
-        on=["year", "gender"],
-    )
+    data = [go.Scatter(x=male_df['year'], y=male_df['count'], name='Male'), go.Scatter(x=female_df['year'], y=female_df['count'], name='Female')]
 
-    # Calculate proportions per total and gender per year
-    df['gender_proportion'] = df['count'] / df['year_gender_total']
-    df['total_proportion'] = df['count'] / df['year_total']
+    layout = go.Layout(title=f"Births per year with name: {name}", showlegend=True)
+    fig = go.Figure(data=data, layout=layout)
+    graphJSON = pio.to_json(fig)
 
-    return df
+    return graphJSON
 
 
-def name_popular_year_dfs():
-
-    df = pd.DataFrame()
-    # df = read_mongo(db='baby_data', collection='federal_baby_name')
-
-    # Determine Most Popular Year for Each Name by Total Names Given
-    popular_years = (
-        df.merge(
-            df.groupby(["name", "gender"], as_index=False)["count"].max(),
-            how="inner",
-            on=["name", "gender", "count"],
-        )
-        .groupby(["name", "gender"], as_index=False)["year"]
-        .max()
-        .rename(columns={"year": "year_pop"}, inplace=False)
-    )
-
-    pop_total_name_df = df.merge(popular_years.rename(columns={"year_pop": "year"}), how='inner',
-                                 on=['name', 'gender', 'year'])
-
-    popular_proportion_years = (
-        df.merge(
-            df.groupby(["name", "gender"], as_index=False)["total_proportion"].max(),
-            how="inner",
-            on=["name", "gender", "total_proportion"],
-        )
-        .groupby(["name", "gender"], as_index=False)["year"]
-        .max()
-        .rename(columns={"year": "year_pop"}, inplace=False)
-    )
-
-    pop_proportion_name_df = df.merge(popular_proportion_years.rename(columns={"year_pop": "year"}), how='inner',
-                                      on=['name', 'gender', 'year'])
-
-    return pop_total_name_df, pop_proportion_name_df
+# def name_popular_year_dfs():
+#     df = pd.DataFrame()
+#     # df = read_mongo(db='baby_data', collection='federal_baby_name')
+#
+#     # Determine Most Popular Year for Each Name by Total Names Given
+#     popular_years = (
+#         df.merge(
+#             df.groupby(["name", "gender"], as_index=False)["count"].max(),
+#             how="inner",
+#             on=["name", "gender", "count"],
+#         )
+#         .groupby(["name", "gender"], as_index=False)["year"]
+#         .max()
+#         .rename(columns={"year": "year_pop"}, inplace=False)
+#     )
+#
+#     pop_total_name_df = df.merge(popular_years.rename(columns={"year_pop": "year"}), how='inner',
+#                                  on=['name', 'gender', 'year'])
+#
+#     popular_proportion_years = (
+#         df.merge(
+#             df.groupby(["name", "gender"], as_index=False)["total_proportion"].max(),
+#             how="inner",
+#             on=["name", "gender", "total_proportion"],
+#         )
+#         .groupby(["name", "gender"], as_index=False)["year"]
+#         .max()
+#         .rename(columns={"year": "year_pop"}, inplace=False)
+#     )
+#
+#     pop_proportion_name_df = df.merge(popular_proportion_years.rename(columns={"year_pop": "year"}), how='inner',
+#                                       on=['name', 'gender', 'year'])
+#
+#     return pop_total_name_df, pop_proportion_name_df
