@@ -24,7 +24,7 @@ RUN venv/bin/pip install -r requirements/docker.txt
 
 COPY app app
 COPY data data
-COPY main.py config.py boot.sh ./
+COPY main.py config.py boot.sh data-dev.sqlite ./
 
 # run-time configuration
 EXPOSE 5000
