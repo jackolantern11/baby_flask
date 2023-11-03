@@ -14,8 +14,8 @@ def index():
     return render_template("index.html")
 
 
-@main.route('/graph', methods=['GET', 'POST'])
-def graph():
+@main.route('/name_research', methods=['GET', 'POST'])
+def name_research():
     name_form = NameForm()
     genders = ["M", "F"]
     graphJSON = None
@@ -26,9 +26,12 @@ def graph():
         graphJSON = graph_calculations.generate_base_name_graph(single_name_df, name)
         session['graphJSON'] = graphJSON
 
-        return redirect(url_for('.graph'))
+        # Temp Testing Func
+        queries.query_for_all_federal_data(Federal_Data)
 
-    return render_template('graph.html', graphJSON=session.get('graphJSON'), form=name_form, genders=genders)
+        return redirect(url_for('.name_research'))
+
+    return render_template('name_research.html', graphJSON=session.get('graphJSON'), form=name_form, genders=genders)
 
 
 # @main.route('/data_summary')

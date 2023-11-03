@@ -32,13 +32,13 @@ Security:
 * HTTPS / token stuff
 * Cookie options
 
-# @ToDo - Male & Female combined and Male & Female Separated
-# @ToDo - Names with similar popularity
-# @ToDo - Top Names of Last Year - Past 5/10/25/50/100 years
-# @ToDo - Random Name Generator
-# @ToDo - What year was 'x' name the most popular
-# @ToDo - Find all similar names to a name graph and table
-# @ToDo - compare in all lowercase
+@ToDo - Male & Female combined and Male & Female Separated
+@ToDo - Names with similar popularity
+@ToDo - Top Names of Last Year - Past 5/10/25/50/100 years
+@ToDo - Random Name Generator
+@ToDo - What year was 'x' name the most popular
+@ToDo - Find all similar names to a name graph and table
+@ToDo - compare in all lowercase
 
 
 -- Query to get totals by gender per year:
