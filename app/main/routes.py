@@ -26,9 +26,6 @@ def name_research():
         graphJSON = graph_calculations.generate_base_name_graph(single_name_df, name)
         session['graphJSON'] = graphJSON
 
-        # Temp Testing Func
-        queries.query_for_all_federal_data(Federal_Data)
-
         return redirect(url_for('.name_research'))
 
     return render_template('name_research.html', graphJSON=session.get('graphJSON'), form=name_form, genders=genders)

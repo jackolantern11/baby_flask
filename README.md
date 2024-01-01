@@ -11,6 +11,9 @@ docker push 192.168.17.9:3000/zfreeze/baby_flask:latest
 flask --app main (run/shell etc.)
 flask --app hello:create_app(local_auth=True) run
 
+
+flask --app main.py --debug run
+
 ToDo:
 
 Data Pipeline:
