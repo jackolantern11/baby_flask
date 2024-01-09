@@ -8,6 +8,8 @@ docker login 192.168.17.9:3000
 docker build -t 192.168.17.9:3000/zfreeze/baby_flask:latest .
 docker push 192.168.17.9:3000/zfreeze/baby_flask:latest
 
+docker run -d -p 5000:5000 --name baby_flask 192.168.17.9:3000/zfreeze/baby_flask
+
 flask --app main (run/shell etc.)
 flask --app hello:create_app(local_auth=True) run
 
