@@ -23,7 +23,7 @@ RUN venv/bin/pip install --upgrade pip
 RUN venv/bin/pip install -r requirements/docker.txt
 
 COPY app app
-COPY data data
+# COPY data data
 COPY main.py config.py boot.sh data-dev.sqlite ./
 
 # run-time configuration
