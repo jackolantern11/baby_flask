@@ -6,22 +6,18 @@ ENV FLASK_CONFIG production
 # numpy & pandas dependencies reqd
 RUN apt-get update --fix-missing \
     && apt-get install -yqq \
-        python3-pip \ 
         default-jre-headless \
         gcc \
-        ca-certificates \
         build-essential \
         ldap-utils \
         libsasl2-dev \
-        python3 \
         libldap2-dev \
         libssl-dev \
-        openssh-server \
         libaio1 \
         libpq-dev \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && ldconfig
 
 RUN addgroup --gid "50000" "baby_flask" && \
     adduser --quiet "baby_flask" --uid "50000" \
