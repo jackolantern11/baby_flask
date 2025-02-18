@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.9-alpine
+FROM python:3.9-alpine
 
 ENV FLASK_APP main.py
 ENV FLASK_CONFIG production
@@ -10,7 +10,8 @@ RUN apk add --no-cache --update \
     libffi-dev openssl-dev \
     libxml2 libxml2-dev \
     libxslt libxslt-dev \
-    libjpeg-turbo-dev zlib-dev
+    libjpeg-turbo-dev zlib-dev \
+    libpq-dev
 
 RUN adduser -D baby_flask
 USER baby_flask
