@@ -20,7 +20,7 @@ WORKDIR /home/baby_flask
 COPY requirements requirements
 RUN python -m venv venv
 RUN venv/bin/pip install --upgrade pip
-RUN venv/bin/pip install -r requirements/docker.txt
+RUN venv/bin/pip install -r requirements/common.txt
 
 COPY app app
 # COPY data data
