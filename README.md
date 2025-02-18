@@ -1,8 +1,14 @@
-Baby Names Project
+## Baby Names Project
 
+Simple project to learn flask basics and do baby name research based on SSA government data
+
+
+### Run Locally
 here's how to run locally with gunicorn:
 gunicorn 'main:app' --access-logfile=- --error-logfile - --env FLASK_CONFIG=production
 
+
+### Docker Build Notes
 build docker image 
 docker login 192.168.17.9:3000
 docker build -t 192.168.17.9:3000/zfreeze/baby_flask:latest .
@@ -16,7 +22,7 @@ flask --app hello:create_app(local_auth=True) run
 
 flask --app main.py --debug run
 
-ToDo:
+### ToDo:
 
 Data Pipeline:
 * Move data to proper database (SQLLITE or MySQL) - Use SQL Alchemy
