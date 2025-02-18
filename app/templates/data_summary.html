@@ -1,0 +1,42 @@
+    {% extends "layout.html" %}
+
+    {% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <title>data_summary</title>
+    </head>
+    <body>
+        <h1>Data Summary Page</h1>
+        <table>
+            <tr>
+                <th>Min Year</th>
+                <th>Max Year</th>
+            </tr>
+            <tr>
+                <td>{{ data['year_min'] }}</td>
+                <td>{{ data['year_max'] }}</td>
+            </tr>
+        </table>
+        <br>
+
+        <br>
+        <table>
+            <tr>
+                <th>year</th>
+                <th>name</th>
+                <th>gender</th>
+                <th>count</th>
+            </tr>
+                {% for tuple in df.head(50).itertuples() %}
+                <tr>
+                    <td>{{ tuple.year }}</td>
+                    <td>{{ tuple.name }}</td>
+                    <td>{{ tuple.gender }}</td>
+                    <td>{{ tuple.count }}</td>
+                </tr>
+                {% endfor %}
+
+        </table>
+        <br>
+    </body>
+    {% endblock %}
