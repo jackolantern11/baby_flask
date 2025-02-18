@@ -1,19 +1,32 @@
-FROM python:3.9-alpine
+FROM python:3.9
 
 ENV FLASK_APP main.py
 ENV FLASK_CONFIG production
 
 # numpy & pandas dependencies reqd
-RUN apk add --no-cache --update \
-    python3 python3-dev gcc g++ \
-    gfortran musl-dev \
-    libffi-dev openssl-dev \
-    libxml2 libxml2-dev \
-    libxslt libxslt-dev \
-    libjpeg-turbo-dev zlib-dev \
-    libpq-dev
+RUN apt-get update --fix-missing \
+    && apt-get install -yqq \
+        python3-pip \ 
+        default-jre-headless \
+        gcc \
+        ca-certificates \
+        build-essential \
+        ldap-utils \
+        libsasl2-dev \
+        python3 \
+        libldap2-dev \
+        libssl-dev \
+        openssh-server \
+        libaio1 \
+        libpq-dev \
+    && apt-get autoremove -yqq --purge \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN adduser -D baby_flask
+RUN addgroup --gid "50000" "baby_flask" && \
+    adduser --quiet "baby_flask" --uid "50000" \
+    --gid "50000"
+
 USER baby_flask
 
 WORKDIR /home/baby_flask
